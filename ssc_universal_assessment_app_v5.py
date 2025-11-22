@@ -17,6 +17,10 @@ st.set_page_config(
 
 DEFAULT_TEMPLATE_PATH = "ssc_assessment_template.xlsx"
 
+# Logo paths (upload these files to the same repo as this app)
+SSC_LOGO_PATH = "ssc_logo.png"       # SSC / StrategyStack logo
+CLIENT_LOGO_PATH = "client_logo.png" # Client/Bain logo (or any client-specific logo)
+
 # ---------------------------
 # OPENAI HELPER
 # ---------------------------
@@ -513,15 +517,33 @@ def render_consultant_review_and_dashboard():
 def main():
     init_session_state()
 
-    # Top branding
-    st.markdown(
-        f"<h1 style='text-align:center;color:#002060;font-family:Segoe UI, sans-serif;'>SSC Universal Assessment App (V5)</h1>",
-        unsafe_allow_html=True,
-    )
-    st.markdown(
-        "<h4 style='text-align:center;color:gray;font-family:Segoe UI, sans-serif;'>Client Self-Assessment + AI Pre-Scoring + Consultant Override</h4>",
-        unsafe_allow_html=True,
-    )
+    # --- Top branding with logos ---
+    logo_cols = st.columns([1, 4, 1])
+
+    with logo_cols[0]:
+        if os.path.exists(SSC_LOGO_PATH):
+            st.image(SSC_LOGO_PATH, use_column_width=True)
+        else:
+            st.write("")  # placeholder
+
+    with logo_cols[1]:
+        st.markdown(
+            "<h1 style='text-align:center;color:#002060;font-family:Segoe UI, sans-serif;'>"
+            "SSC Universal Assessment App (V5)</h1>",
+            unsafe_allow_html=True,
+        )
+        st.markdown(
+            "<h4 style='text-align:center;color:gray;font-family:Segoe UI, sans-serif;'>"
+            "Client Self-Assessment + AI Pre-Scoring + Consultant Override</h4>",
+            unsafe_allow_html=True,
+        )
+
+    with logo_cols[2]:
+        if os.path.exists(CLIENT_LOGO_PATH):
+            st.image(CLIENT_LOGO_PATH, use_column_width=True)
+        else:
+            st.write("")
+
     st.markdown("---")
 
     render_sidebar()
